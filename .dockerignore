@@ -1,0 +1,24 @@
+
+# Frontend
+railwayFrontend/
+
+# Environment variables
+.env
+.env.*
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+
+# Maven build output
+**/target/
+
+# Logs
+*.log
+
+# OS
+.DS_Store

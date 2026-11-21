@@ -1,0 +1,43 @@
+
+server:
+  port: 8083
+
+spring:
+  application:
+    name: reservation-service
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/railway_reservation}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  jackson:
+    default-property-inclusion: non_null
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    connection-timeout: 3s
+
+internal:
+  api-key: ${INTERNAL_API_KEY}
+
+services:
+  train-url: ${TRAIN_SERVICE_URL:http://localhost:8082}
+  payment-url: ${PAYMENT_SERVICE_URL:http://localhost:8084}
+
+reservation:
+  payment-hold-minutes: 15
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true

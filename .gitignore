@@ -1,0 +1,28 @@
+target/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+
+# Frontend
+railwayFrontend/node_modules/
+railwayFrontend/dist/
+railwayFrontend/.angular/
+
+
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Maven build output
+**/target/
+
+# IDE files
+.idea/
+
+# Logs
+*.log
+

@@ -1,0 +1,103 @@
+
+  server:
+    port: 8080
+
+  spring:
+    application:
+      name: api-gateway
+
+    cloud:
+      gateway:
+        globalcors:
+          cors-configurations:
+            '[/**]':
+              allowedOrigins:
+                - "${FRONTEND_URL:http://localhost:4200}"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - OPTIONS
+              allowedHeaders:
+                - "*"
+              allowCredentials: true
+
+        routes:
+          # API routes
+          - id: user-service
+            uri: ${USER_SERVICE_URL:lb://user-service}
+            predicates:
+              - Path=/api/users/**
+
+          - id: train-service
+            uri: ${TRAIN_SERVICE_URL:lb://train-service}
+            predicates:
+              - Path=/api/trains/**,/api/admin/trains/**
+
+          - id: reservation-service
+            uri: ${RESERVATION_SERVICE_URL:lb://reservation-service}
+            predicates:
+              - Path=/api/reservations/**,/api/cancellations/**,/api/admin/reservations/**
+
+          - id: payment-service
+            uri: ${PAYMENT_SERVICE_URL:lb://payment-service}
+            predicates:
+              - Path=/api/payments/**
+
+          # Swagger documentation routes
+          - id: docs-user-service
+            uri: ${USER_SERVICE_URL:lb://user-service}
+            predicates:
+              - Path=/docs/user-service
+            filters:
+              - SetPath=/v3/api-docs
+
+          - id: docs-train-service
+            uri: ${TRAIN_SERVICE_URL:lb://train-service}
+            predicates:
+              - Path=/docs/train-service
+            filters:
+              - SetPath=/v3/api-docs
+
+          - id: docs-reservation-service
+            uri: ${RESERVATION_SERVICE_URL:lb://reservation-service}
+            predicates:
+              - Path=/docs/reservation-service
+            filters:
+              - SetPath=/v3/api-docs
+
+          - id: docs-payment-service
+            uri: ${PAYMENT_SERVICE_URL:lb://payment-service}
+            predicates:
+              - Path=/docs/payment-service
+            filters:
+              - SetPath=/v3/api-docs
+
+  springdoc:
+    swagger-ui:
+      urls:
+        - name: user-service
+          url: /docs/user-service
+        - name: train-service
+          url: /docs/train-service
+        - name: reservation-service
+          url: /docs/reservation-service
+        - name: payment-service
+          url: /docs/payment-service
+
+  jwt:
+    secret: ${JWT_SECRET}
+
+  internal:
+    api-key: ${INTERNAL_API_KEY}
+
+  gateway:
+    public-paths: /api/users/register,/api/users/login,/api/trains/**,/api/payments/callback,/docs/**
+
+  eureka:
+    client:
+      service-url:
+        defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+    instance:
+      prefer-ip-address: true
