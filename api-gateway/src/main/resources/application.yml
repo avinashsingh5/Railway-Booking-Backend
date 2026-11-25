@@ -13,6 +13,7 @@
             '[/**]':
               allowedOrigins:
                 - "${FRONTEND_URL:http://localhost:4200}"
+                - "${FRONTEND_URL:http://https://railway.avinashsingh.site}"
               allowedMethods:
                 - GET
                 - POST
